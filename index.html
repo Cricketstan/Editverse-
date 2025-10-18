@@ -2,399 +2,308 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Premium Video Player</title>
-<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>EditVerse</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.3.4/dist/controls.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
-.video-container {
-  margin-top: 70px;
-  padding-top: 0;
-  width: 100%;
-  background: black;
-  aspect-ratio: 16/9;
+:root {
+    --bg-color: #121212;
+    --primary-red: #e50914; 
+    --primary-red-dark: #b91c1c;
+    --card-bg: #1e1e1e;
+    --text-light: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #2d2d2d;
+    --popup-bg: #282828;
+    --popup-shadow-color: rgba(229, 9, 20, 0.4);
 }
-
-  html, body {
-    margin: 0; padding: 0; width: 100%; height: 100%;
-    font-family: 'Poppins', sans-serif; background: #000; overflow-x: hidden;
-  }
-  header {
-    position: fixed; top: 0; left: 0; width: 100%;
-    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(12px);
-    display: flex; align-items: center; justify-content: center;
-    padding: 10px 16px; z-index: 1001; border-bottom: 1px solid rgba(255,255,255,0.15);
-  }
-  .menu-icon {
-    position: absolute; left: 16px; color: #fff; font-size: 28px; cursor: pointer;
-  }
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #000;
-  color: #fff;
-  font-family: 'Arial', sans-serif;
-}
-
-.tabs {
-  display: flex;
-  background: #111;
-  border-bottom: 1px solid #333;
-}
- body {
-    margin: 0; padding: 0;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
     font-family: 'Poppins', sans-serif;
-    background: #000; color: #fff;
-  }
-
-  .popup-overlay {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 9999;
-  }
-
-  .popup-box {
-    width: 320px;
-    background: rgba(20, 20, 30, 0.6);
-    border: 1px solid rgba(173, 216, 230, 0.25);
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), 0 0 80px rgba(173, 216, 230, 0.15);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    animation: fadeIn 0.5s ease forwards;
-    position: relative;
-  }
-
-  @keyframes fadeIn {
-    from { transform: scale(0.95); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  .popup-header {
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(45deg, #00eaff, #bd00ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.4rem;
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
-  }
-video:fullscreen, 
-video:-webkit-full-screen, 
-video:-moz-full-screen {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  object-fit: contain; /* or cover based on your need */
-}
-  .popup-subtitle {
-    font-size: 1rem;
-    color: #aaa;
-    margin-bottom: 1.2rem;
-  }
-.video-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: black;
-  margin-top: 60px; /* Already present, good! */
-  padding-top: 60px; /* <-- Add this to push the video below header properly */
-}
-  .popup-buttons {
+    background-color: var(--bg-color);
+    color: var(--text-light);
     display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-
-  .popup-btn {
-    padding: 0.8rem;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.35s ease;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .popup-btn::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(0,255,255,0.3), rgba(255,0,255,0.2));
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 1rem;
+}
+.container {
+    width: 100%;
+    max-width: 800px;
     opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .popup-btn:hover::after {
-    opacity: 1;
-  }
-
-  .join-btn {
-    background: linear-gradient(135deg, #00eaff, #9c00ff);
-    box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
-  }
-  .join-btn:hover {
-    background: linear-gradient(135deg, #00ffff, #c000ff);
-    box-shadow: 0 0 16px rgba(0, 255, 255, 0.6);
-  }
-
-  .already-btn {
-    background: rgba(255,255,255,0.05);
-  }
-  .already-btn:hover {
-    background: rgba(255,255,255,0.15);
-  }
-
-  .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 18px;
-    font-size: 1.3rem;
-    color: #00eaff;
-    background: none;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+.stream-header {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.stream-header h1 { font-size: 1.25rem; font-weight: 600; }
+.live-badge {
+    background-color: var(--primary-red);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(229, 9, 20, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(229, 9, 20, 0); }
+}
+#player-container {
+    width: 100%;
+    height: 50vh;
+    max-height: 600px;
+    background-color: #000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.info-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+.info-card h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+}
+.action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: color 0.3s;
-  }
-  .close-btn:hover {
-    color: #ff00cc;
-  }
-.tab {
-  flex: 1;
-  text-align: center;
-  padding: 12px 0;
-  cursor: pointer;
-  color: #aaa;
-  font-weight: 500;
-  font-size: 14px;
-  transition: background 0.3s, color 0.3s, border-bottom 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  border-bottom: 3px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px var(--popup-shadow-color);
+}
+.action-button.copied { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.back-link {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+.back-link:hover { background-color: var(--card-bg); color: var(--text-light); }
+.error-message {
+     text-align: center;
+     padding: 4rem 1rem;
+     background-color: var(--card-bg);
+     border: 1px solid var(--border-color);
+     border-radius: 12px;
+}
+.error-message h2 { color: var(--primary-red); font-size: 1.5rem; margin-bottom: 0.5rem; }
+.telegram-popup {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(145deg, #181818, #1f1f1f);
+    color: var(--text-light);
+    padding: 40px 25px;
+    border-radius: 16px;
+    box-shadow: 0 0 50px 10px rgba(229, 9, 20, 0.5), 0 0 20px rgba(229, 9, 20, 0.3) inset;
+    z-index: 10000;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    display: none;
+    border: 2px solid var(--primary-red);
+    animation: popIn 0.4s ease-out forwards, glowPulse 2.5s infinite alternate;
 }
 
-.tab:hover {
-  background: #181818;
-  color: #ccc;
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 20px rgba(229, 9, 20, 0.3), 0 0 10px rgba(229, 9, 20, 0.2) inset; }
+    100% { box-shadow: 0 0 40px rgba(229, 9, 20, 0.7), 0 0 20px rgba(229, 9, 20, 0.4) inset; }
 }
 
-.tab.active {
-  background: #101d10;
-  color: #00ff80;
-  border-bottom: 3px solid #00ff80;
+.telegram-popup h2 {
+    margin-top: 0;
+    color: var(--primary-red);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    margin-bottom: 0.75rem;
 }
 
-.tab-content {
-  display: none;
-  width: 100%;
-  height: 65vh;
-  background: #000;
+.telegram-popup p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 1.75rem;
+    line-height: 1.5;
 }
 
-.tab-content.active {
-  display: block;
+.telegram-popup button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.tab-content iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+.telegram-popup button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
-.material-icons {
-  font-size: 18px;
-}
-  header img {
-    max-height: 45px;
-  }
- 
-
-  /* Sidebar Styles - Premium Glassmorphic */
-  .sidebar {
-    position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(255,255,255,0.2);
-    color: #fff; z-index: 1100; transition: left 0.5s ease;
-    padding-top: 80px; box-shadow: 4px 0 15px rgba(0,0,0,0.4);
-    border-top-right-radius: 12px; border-bottom-right-radius: 12px;
-  }
-  .sidebar.open { left: 0; }
-  .sidebar a {
-    display: block; padding: 15px 24px; color: #fff; text-decoration: none;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-weight: 500; font-size: 16px;
-    transition: background 0.3s, padding-left 0.3s;
-  }
-  .sidebar a:hover {
-    background: rgba(255,255,255,0.15);
-    padding-left: 32px;
-  }
-.video-wrapper {
-  margin-top: 70px; /* Adjust based on your header height */
-  width: 100%;
+.telegram-popup .join-btn {
+    background: linear-gradient(90deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+    box-shadow: 0 0 12px rgba(229, 9, 20, 0.4);
 }
 
-.menu-header {
-  font-size: 20px;
-  font-weight: 600;
-  text-align: center;
-  padding: 15px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.08);
-  color: #fff;
+.telegram-popup .join-btn:hover {
+    box-shadow: 0 0 25px rgba(229, 9, 20, 0.7);
 }
-.popup-buttons a {
-  text-decoration: none;
-}
-header {
-  height: 70px; /* Fixed height */
-  display: flex;
-  align-items: center; /* Vertically center logo */
-  justify-content: center;
-  padding: 0 16px;
-}
-  .overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.4); z-index: 1099; display: none;
-    transition: background 0.4s ease;
-  }
-  .overlay.show { display: block; }
 
+.telegram-popup .joined-btn {
+    background-color: var(--border-color);
+    color: var(--text-light);
+    border: 1px solid var(--primary-red-dark);
+}
+
+@media (max-width: 480px) {
+    .telegram-popup {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+    .telegram-popup h2 { font-size: 1.5rem; }
+    .telegram-popup p { font-size: 0.9rem; }
+}
 </style>
 </head>
 <body>
-<div class="popup-overlay" id="popup">
-  <div class="popup-box">
-    <button class="close-btn" onclick="closePopup()">×</button>
-    <div class="popup-header">Support Us!</div>
-    <div class="popup-subtitle">Join our Telegram for latest updates.</div>
-    <div class="popup-buttons">
-      <a href="https://t.me/+6vq3y6963EQ1NGFl" target="_blank" class="popup-btn join-btn">Join Now</a>
-      <button class="popup-btn already-btn" onclick="closePopup()">Already Joined</button>
-    </div>
-  </div>
-</div>
-<header>
-  <span class="material-icons menu-icon" onclick="toggleSidebar()">menu</span>
-  <img src="https://i.ibb.co/rKDCBvph/Picsart-25-06-10-00-08-54-780.png" alt="Logo" />
-</header>
+<main class="container">
+    <div id="stream-content"></div>
+</main>
 
-<div class="sidebar" id="sidebar">
-  <div class="menu-header">MENU</div>
-  <a href="https://t.me/+6vq3y6963EQ1NGFl" target="_blank"> Join Our Telegram</a>
-  <a href="https://t.me/+6vq3y6963EQ1NGFl" target="_blank"> Contact Us</a>
-  <a href="https://t.me/+6vq3y6963EQ1NGFl" target="_blank">Copyright</a>
-</div>
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-<div class="video-wrapper">
-  <video id="player" playsinline controls></video>
+<div class="telegram-popup" id="telegramPopup">
+    <h2><i class="fa-brands fa-telegram"></i> Support Us!</h2>
+    <p>Join our Telegram channel <strong>Editverse</strong> for instant updates, highlights, and exclusive links.</p>
+    <a href="https://t.me/cricdevotee" target="_blank" rel="noopener"><button class="join-btn">Join Now</button></a>
+    <button class="joined-btn" onclick="document.getElementById('telegramPopup').style.display='none';">Already Joined</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-<!-- Google Material Icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-<div class="tabs">
-  <div class="tab" id="livechat-tab" onclick="openTab('livechat')">
-    <span class="material-icons">chat</span> Live Chat
-  </div>
-  <div class="tab" id="scoreboard-tab" onclick="openTab('scoreboard')">
-    <span class="material-icons">leaderboard</span> Scoreboard
-  </div>
-  <div class="tab" id="moments-tab" onclick="openTab('moments')">
-    <span class="material-icons">movie</span> Top Moments
-  </div>
-</div>
-
-<div class="tab-content" id="livechat-content">
-  <iframe src="https://cricketstan.github.io/Live-Chat/" allowfullscreen></iframe>
-</div>
-
-<div class="tab-content" id="scoreboard-content">
-  <iframe src="https://allrounder745.github.io/Scoreboard-/" allowfullscreen></iframe>
-</div>
-
-<div class="tab-content" id="moments-content">
-  <iframe src="https://cricketstan.github.io/Top-moments-/" allowfullscreen></iframe>
-</div>
 <script>
-  const jsonUrl = 'https://raw.githubusercontent.com/StmpupCricket/T-Sports-json/refs/heads/main/data.json';
-  fetch(jsonUrl)
-    .then(res => res.json())
-    .then(data => {
-      const m3u8Url = data.stream_url;
-      const video = document.getElementById('player');
+async function initializeApp() {
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/Cricketstan/Allrounder-/refs/heads/main/id.json');
+        if (!response.ok) throw new Error('Failed to fetch JSON');
+        const data = await response.json();
 
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(m3u8Url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          const qualities = hls.levels.map(l => l.height).filter((v,i,a)=>a.indexOf(v)===i).sort((a,b)=>b-a);
-          new Plyr(video, {
-            controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-            settings: ['quality', 'speed'],
-            quality: {
-              default: qualities[0],
-              options: qualities,
-              forced: true,
-              onChange: q => {
-                const level = hls.levels.findIndex(l => l.height === q);
-                hls.currentLevel = level;
-              }
-            }
-          });
-          video.play();
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = m3u8Url;
-        video.addEventListener('loadedmetadata', () => {
-          new Plyr(video, {
-            controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-            settings: ['quality', 'speed']
-          });
-          video.play();
-        });
-      } else {
-        alert("Your browser does not support HLS.");
-      }
-    })
-    .catch(err => {
-      console.error('Failed to load stream:', err);
-      alert('Failed to load stream.');
-    });
+        const urlParams = new URLSearchParams(window.location.search);
+        const streamId = urlParams.get('id');
+        const streamData = data.iframes.find(item => item.id === streamId);
 
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-  }
-function openTab(tabName) {
-  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-  document.getElementById(tabName + '-tab').classList.add('active');
-  document.getElementById(tabName + '-content').classList.add('active');
+        if (streamData) {
+            document.title = `${streamData.name}`;
+            renderIframeUI(streamData);
+            setTimeout(() => {
+                document.getElementById('telegramPopup').style.display = 'block';
+            }, 1000);
+        } else {
+            renderErrorUI();
+        }
+    } catch (err) {
+        console.error(err);
+        renderErrorUI();
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  openTab('livechat'); // default tab
-});
-function closePopup() {
-    document.getElementById('popup').style.display = 'none';
-  }
-</script>
+function renderIframeUI(data) {
+    const contentDiv = document.getElementById('stream-content');
+    contentDiv.innerHTML = `
+        <div class="stream-header">
+            <h1>${data.name}</h1>
+            <div class="live-badge"><i class="fa-solid fa-circle"></i> LIVE</div>
+        </div>
+        <div id="player-container">
+            <iframe src="${data.iframeSrc}" style="width:100%; height:100%; border:0;" allow="encrypted-media; autoplay" allowfullscreen></iframe>
+        </div>
+        <div class="info-card">
+            <h2><i class="fa-solid fa-bell"></i> Follow us for Updates!</h2>
+            <a href="https://t.me/cricdevotee" target="_blank" rel="noopener" class="action-button">
+                <i class="fa-brands fa-telegram"></i> Click Here To Join Telegram
+            </a>
+        </div>
+        <div class="info-card">
+            <h2><i class="fa-solid fa-link"></i> Copy Link & Share</h2>
+            <button class="action-button" id="shareButton"><i class="fa-solid fa-share-nodes"></i> Click Here To Share This Page Link</button>
+        </div>
+        <a href="#" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to All Streams</a>
+    `;
+    document.getElementById('shareButton').addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            const btn = document.getElementById('shareButton');
+            const original = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Link Copied!`;
+            btn.classList.add('copied');
+            setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
+        } catch (err) { console.error(err); }
+    });
+}
 
+function renderErrorUI() {
+    const contentDiv = document.getElementById('stream-content');
+    document.title = "Error - Stream Not Found";
+    contentDiv.innerHTML = `
+        <div class="error-message">
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> Stream Not Found</h2>
+            <p>The requested stream ID is invalid or offline.</p>
+            <a href="#" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to All Streams</a>
+        </div>`;
+}
+
+document.addEventListener("DOMContentLoaded", initializeApp);
+</script>
 </body>
-  </html>
+</html>
