@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EditVerse</title>
+<title>EDITVERSE</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.3.4/dist/controls.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,14 +14,14 @@
 <style>
 :root {
     --bg-color: #121212;
-    --primary-red: #e50914; 
-    --primary-red-dark: #b91c1c;
+    --primary-blue: #00b4d8;
+    --primary-blue-dark: #0077b6;
     --card-bg: #1e1e1e;
     --text-light: #f1f5f9;
     --text-muted: #94a3b8;
     --border-color: #2d2d2d;
     --popup-bg: #282828;
-    --popup-shadow-color: rgba(229, 9, 20, 0.4);
+    --popup-shadow-color: rgba(0, 180, 216, 0.4);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -54,7 +54,7 @@ body {
 }
 .stream-header h1 { font-size: 1.25rem; font-weight: 600; }
 .live-badge {
-    background-color: var(--primary-red);
+    background-color: var(--primary-blue);
     color: white;
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
@@ -66,9 +66,9 @@ body {
     animation: pulse 1.5s infinite;
 }
 @keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(229, 9, 20, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(229, 9, 20, 0); }
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 180, 216, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 180, 216, 0); }
 }
 #player-container {
     width: 100%;
@@ -78,6 +78,7 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     border-radius: 12px;
     overflow: hidden;
+    position: relative;
 }
 .info-card {
     background-color: var(--card-bg);
@@ -105,7 +106,7 @@ body {
     width: 100%;
     padding: 0.8rem 1rem;
     border-radius: 8px;
-    background: linear-gradient(90deg, var(--primary-red), var(--primary-red-dark));
+    background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-dark));
     color: white;
     font-weight: 600;
     text-decoration: none;
@@ -137,7 +138,32 @@ body {
      border: 1px solid var(--border-color);
      border-radius: 12px;
 }
-.error-message h2 { color: var(--primary-red); font-size: 1.5rem; margin-bottom: 0.5rem; }
+.error-message h2 { color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+.view-counter {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.3;
+    color: #fff;
+    font-weight: 600;
+    text-align: right;
+    z-index: 9999;
+    pointer-events: none;
+}
+.view-counter .name {
+    font-size: 10px;
+    opacity: 0.85;
+}
+.view-counter .views {
+    font-size: 12px;
+    font-weight: 700;
+}
+
 .telegram-popup {
     position: fixed;
     top: 50%; left: 50%;
@@ -146,27 +172,27 @@ body {
     color: var(--text-light);
     padding: 40px 25px;
     border-radius: 16px;
-    box-shadow: 0 0 50px 10px rgba(229, 9, 20, 0.5), 0 0 20px rgba(229, 9, 20, 0.3) inset;
+    box-shadow: 0 0 50px 10px rgba(0, 180, 216, 0.5), 0 0 20px rgba(0, 180, 216, 0.3) inset;
     z-index: 10000;
     text-align: center;
     width: 90%;
     max-width: 400px;
     display: none;
-    border: 2px solid var(--primary-red);
+    border: 2px solid var(--primary-blue);
     animation: popIn 0.4s ease-out forwards, glowPulse 2.5s infinite alternate;
 }
 
 @keyframes glowPulse {
-    0% { box-shadow: 0 0 20px rgba(229, 9, 20, 0.3), 0 0 10px rgba(229, 9, 20, 0.2) inset; }
-    100% { box-shadow: 0 0 40px rgba(229, 9, 20, 0.7), 0 0 20px rgba(229, 9, 20, 0.4) inset; }
+    0% { box-shadow: 0 0 20px rgba(0, 180, 216, 0.3), 0 0 10px rgba(0, 180, 216, 0.2) inset; }
+    100% { box-shadow: 0 0 40px rgba(0, 180, 216, 0.7), 0 0 20px rgba(0, 180, 216, 0.4) inset; }
 }
 
 .telegram-popup h2 {
     margin-top: 0;
-    color: var(--primary-red);
+    color: var(--primary-blue);
     font-size: 1.75rem;
     font-weight: 700;
-    text-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    text-shadow: 0 0 10px rgba(0, 180, 216, 0.5);
     margin-bottom: 0.75rem;
 }
 
@@ -195,28 +221,19 @@ body {
 }
 
 .telegram-popup .join-btn {
-    background: linear-gradient(90deg, var(--primary-red), var(--primary-red-dark));
+    background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-dark));
     color: white;
-    box-shadow: 0 0 12px rgba(229, 9, 20, 0.4);
+    box-shadow: 0 0 12px rgba(0, 180, 216, 0.4);
 }
 
 .telegram-popup .join-btn:hover {
-    box-shadow: 0 0 25px rgba(229, 9, 20, 0.7);
+    box-shadow: 0 0 25px rgba(0, 180, 216, 0.7);
 }
 
 .telegram-popup .joined-btn {
     background-color: var(--border-color);
     color: var(--text-light);
-    border: 1px solid var(--primary-red-dark);
-}
-
-@media (max-width: 480px) {
-    .telegram-popup {
-        padding: 30px 20px;
-        max-width: 90%;
-    }
-    .telegram-popup h2 { font-size: 1.5rem; }
-    .telegram-popup p { font-size: 0.9rem; }
+    border: 1px solid var(--primary-blue-dark);
 }
 </style>
 </head>
@@ -227,31 +244,46 @@ body {
 
 <div class="telegram-popup" id="telegramPopup">
     <h2><i class="fa-brands fa-telegram"></i> Support Us!</h2>
-    <p>Join our Telegram channel <strong>Editverse</strong> for instant updates, highlights, and exclusive links.</p>
-    <a href="https://t.me/cricdevotee" target="_blank" rel="noopener"><button class="join-btn">Join Now</button></a>
+    <p>Join our Telegram channel <strong>EDITVERSE</strong> for instant updates and exclusive links.</p>
+    <a href="https://t.me/cricdevotee" target="_blank"><button class="join-btn">Join Now</button></a>
     <button class="joined-btn" onclick="document.getElementById('telegramPopup').style.display='none';">Already Joined</button>
 </div>
 
 <script>
 async function initializeApp() {
     try {
-        const response = await fetch('https://raw.githubusercontent.com/Cricketstan/Allrounder-/refs/heads/main/id.json');
-        if (!response.ok) throw new Error('Failed to fetch JSON');
-        const data = await response.json();
+        const [streamsRes, counterRes] = await Promise.all([
+            fetch('https://raw.githubusercontent.com/Cricketstan/Allrounder-/refs/heads/main/id.json'),
+            fetch('https://raw.githubusercontent.com/Cricketstan/Allrounder-/refs/heads/main/kk.json')
+        ]);
+
+        if (!streamsRes.ok || !counterRes.ok) throw new Error('Failed to fetch JSON');
+
+        const streamsData = await streamsRes.json();
+        const counterData = await counterRes.json();
 
         const urlParams = new URLSearchParams(window.location.search);
         const streamId = urlParams.get('id');
-        const streamData = data.iframes.find(item => item.id === streamId);
 
-        if (streamData) {
-            document.title = `${streamData.name}`;
-            renderIframeUI(streamData);
+        const base = streamsData.iframes.find(item => item.id === streamId);
+        const counter = counterData.iframes.find(item => item.id === streamId);
+
+        if (base) {
+            const mergedData = {
+                ...base, // id.json ALWAYS wins
+                hit: counter?.hit || null,
+                get: counter?.get || null
+            };
+
+            renderIframeUI(mergedData);
+
             setTimeout(() => {
                 document.getElementById('telegramPopup').style.display = 'block';
             }, 1000);
         } else {
             renderErrorUI();
         }
+
     } catch (err) {
         console.error(err);
         renderErrorUI();
@@ -265,42 +297,77 @@ function renderIframeUI(data) {
             <h1>${data.name}</h1>
             <div class="live-badge"><i class="fa-solid fa-circle"></i> LIVE</div>
         </div>
+
         <div id="player-container">
-            <iframe src="${data.iframeSrc}" style="width:100%; height:100%; border:0;" allow="encrypted-media; autoplay" allowfullscreen></iframe>
+            <iframe src="${data.iframeSrc}" style="width:100%;height:100%;border:0;" allowfullscreen></iframe>
+
+            <div class="view-counter">
+                <div class="name">${data.name}</div>
+                <div class="views" id="viewCount">0 Views</div>
+            </div>
         </div>
+
         <div class="info-card">
             <h2><i class="fa-solid fa-bell"></i> Follow us for Updates!</h2>
-            <a href="https://t.me/cricdevotee" target="_blank" rel="noopener" class="action-button">
-                <i class="fa-brands fa-telegram"></i> Click Here To Join Telegram
+            <a href="https://t.me/cricdevotee" target="_blank" class="action-button">
+                <i class="fa-brands fa-telegram"></i> Join Telegram
             </a>
         </div>
+
         <div class="info-card">
             <h2><i class="fa-solid fa-link"></i> Copy Link & Share</h2>
-            <button class="action-button" id="shareButton"><i class="fa-solid fa-share-nodes"></i> Click Here To Share This Page Link</button>
+            <button class="action-button" id="shareButton">
+                <i class="fa-solid fa-share-nodes"></i> Share This Page
+            </button>
         </div>
+
         <a href="#" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to All Streams</a>
     `;
-    document.getElementById('shareButton').addEventListener('click', async () => {
-        try {
-            await navigator.clipboard.writeText(window.location.href);
-            const btn = document.getElementById('shareButton');
-            const original = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-check"></i> Link Copied!`;
-            btn.classList.add('copied');
-            setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
-        } catch (err) { console.error(err); }
-    });
+
+    document.getElementById("shareButton").onclick = async () => {
+        await navigator.clipboard.writeText(window.location.href);
+        const btn = document.getElementById("shareButton");
+        const old = btn.innerHTML;
+        btn.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerHTML = old; btn.classList.remove('copied'); }, 2000);
+    };
+
+    if (data.hit && data.get) startViewCounter(data.hit, data.get);
 }
 
 function renderErrorUI() {
-    const contentDiv = document.getElementById('stream-content');
-    document.title = "Error - Stream Not Found";
-    contentDiv.innerHTML = `
+    document.getElementById('stream-content').innerHTML = `
         <div class="error-message">
             <h2><i class="fa-solid fa-triangle-exclamation"></i> Stream Not Found</h2>
             <p>The requested stream ID is invalid or offline.</p>
-            <a href="#" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to All Streams</a>
-        </div>`;
+            <a href="#" class="back-link">Back to All Streams</a>
+        </div>
+    `;
+}
+
+function formatViews(num) {
+    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + "M";
+    if (num >= 1_000) return (num / 1_000).toFixed(1) + "K";
+    return num;
+}
+
+async function startViewCounter(hitUrl, getUrl) {
+    try { await fetch(hitUrl + "&_=" + Date.now()); } catch(e){}
+
+    async function updateViews() {
+        try {
+            const res = await fetch(getUrl + "&_=" + Date.now());
+            const json = await res.json();
+            document.getElementById("viewCount").innerText =
+                formatViews(json.total || 0) + " Views";
+        } catch {
+            document.getElementById("viewCount").innerText = "0 Views";
+        }
+    }
+
+    updateViews();
+    setInterval(updateViews, 2000);
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);
